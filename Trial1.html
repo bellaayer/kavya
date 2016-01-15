@@ -1,0 +1,296 @@
+<!DOCTYPE HTML>
+<!-- TODO
+-- Fix audio how it should be (three different trials, generate sounds instead of file)
+-->
+<html>
+<head>
+	<title>Audio-Visual Analysis</title>
+</head>
+<body>
+
+	<SECTION style="border-style: solid; border-width: 2px; width: 1000px;">
+
+		<CANVAS WIDTH="1000" HEIGHT="600" ID="canvas">
+			<audio id=myMusic src="http://saiakilesh.github.io/600Hz.mp3" type="audio/mpeg" type="audio/mpeg"></audio>
+			<audio id=myMusic1 src="http://saiakilesh.github.io/600Hz.mp3" type="audio/mpeg" type="audio/mpeg"></audio>
+
+		</CANVAS>
+
+	</SECTION>
+
+	<P>
+		<button onClick="alterCanvas()">START</button>
+	</P>
+	<P>
+		<button onClick="stopTimer()">STOP</button>
+	</P>
+
+
+
+<script>				
+		var ctx = document.getElementById("canvas").getContext("2d");
+		var debugOn = false;
+		function debug(stuff) {
+			if (debugOn) console.log(stuff);
+		}
+		function clearScreen() {
+			ctx.clearRect(0, 0, 1000, 600);
+			ctx.fillStyle = 'rgb(152,152,152)';
+			ctx.fillRect(0,0,1000,600);
+
+			ctx.strokeStyle = 'rgb(0,0,255)';
+			ctx.fillStyle = 'rgb(0,0,255)';
+			ctx.lineWidth = 10;
+			ctx.beginPath();
+			ctx.arc(500, 300, 3, 0, Math.PI * 2, false);
+			ctx.closePath();
+			ctx.stroke();
+			ctx.fill();
+		}
+
+		clearScreen();
+
+		//Counterbalancing Initializers
+		var cwCB = 48;
+		var ccwCB = 48;
+
+		var zero = 24;
+		var ninety = 24;
+		var oneeighty = 24;
+		var twoseventy = 24;
+
+		var thirteen = 32;
+		var nineteen = 32;
+		var twentyfive = 32;
+
+
+		redrawCounter = 0;
+		var redrawCounterMax = 0;
+		var direction = "";
+		var startAngle = 45;
+
+		//Initialize Penultimate - Smaller
+		var penultimate;
+		var randomNumberPenult = Math.floor((Math.random() * 2));
+		if (randomNumberPenult == 0) {
+			penult = "smallerinpenult";
+		}
+		else if (randomNumberPenult == 1) {
+			penult = "nosmallerinpenult";
+		}
+
+		//currentState is 0/1 if latest pressed thing is start/stop
+		var currentState = -1;
+
+		// degree count for cosine and sine
+		var x = 0;
+
+		//counters
+		var redrawCounter = 0;
+		var trialNumberCounter = 0;
+		var changeColorCounter = 0;
+		
+		function alterCanvas() {
+			if (currentState == 0) {
+				clearTimeout(window.canvasTimer);
+				x = 0;
+				y = 0;
+				myMusic.pause();
+				myMusic1.play();
+			}
+
+			// Circle Color
+			var color1 = 'rgb(44,38,38)';
+			var color2= 'rgb(183,178,178)';
+			var color = color1;
+			
+			
+			currentState = 0;
+			myMusic.pause();
+			myMusic1.play();
+
+			window.canvasTimer = setTimeout(redraw, 1000);
+
+			clearScreen();
+
+			function changeColor() {
+				if (changeColorCounter < 24) {
+					if (color === color1) {
+						color = color2
+						firstMusic();
+					}
+					else {
+						color = color1;
+						changeMusic();
+					}
+					changeColorCounter++;
+				}
+				else {
+					myMusic.pause();
+					myMusic1.pause();
+				}
+			}
+			
+
+			function redraw() {
+				var rd = 80; // redraw time
+				if (trialNumberCounter < 96) {
+					console.log(trialNumberCounter)
+					if (redrawCounter == 0) { //variable initializers!!
+						rd = 80;
+						redrawCounter = 0;
+						redrawCounterMax = 0;
+						direction = "";
+						startAngle = 45;
+						//Initialize redrawCounterMax
+						while (redrawCounterMax == 0) {
+							debug ("initializing redrawCounterMax");
+							var randomNumber = Math.floor((Math.random() * 3));
+							debug("randomNumber: " + randomNumber);
+							if (randomNumber == 0 && thirteen > 0) {
+								redrawCounterMax = 13;
+								thirteen--;
+							} else if (randomNumber == 1 && nineteen > 0) {
+								redrawCounterMax = 19;
+								nineteen--;
+							} else if (randomNumber = 2 && twentyfive > 0) {
+								redrawCounterMax = 25;
+								twentyfive--;
+							} else {
+								alert("Error code 01");
+							}
+						}
+						debug("redrawCounterMax: " + redrawCounterMax);
+
+						//Initialize direction
+						while (direction == "") {
+							debug("initializing direction");
+							randomDirectionNumber = Math.floor((Math.random() * 2));
+
+							if (randomDirectionNumber == 0 && ccwCB > 0) {
+								direction = "ccw";
+								ccwCB--;
+							} else if (randomDirectionNumber == 1 && cwCB > 0) {
+								direction = "cw";
+								cwCB--;
+							} else {
+								alert("Error code 02");
+							}
+						}
+
+						//dir debug
+						debug("DIRECTION: " + direction);
+						debug("cwCB: " + cwCB);
+						debug("ccwCB: " + ccwCB);
+
+						//Initialize startAngle
+						while (startAngle == 45) {
+							debug("initializing startAngle");
+							randomNumberSA = Math.floor((Math.random() * 4));
+							if (randomNumberSA == 0 && zero > 0) {
+								startAngle = 0;
+								zero--;
+							} else if (randomNumberSA == 1 && ninety > 0) {
+								startAngle = 90;
+								ninety--;
+							} else if (randomNumberSA == 2 && oneeighty > 0) {
+								startAngle = 180;
+								oneeighty--;
+							} else if (randomNumberSA == 3 && twoseventy > 0) {
+								startAngle = 270;
+								twoseventy--;
+							} else {
+								alert("Error code 03");
+							}
+						}
+						debug("startAngle: " + startAngle);
+					}
+
+					if (redrawCounter < redrawCounterMax) {
+						rd = 80;
+						clearScreen();
+
+						// Translate circle
+						if (redrawCounter == 0) {
+							x = startAngle;
+						}
+						if (direction == "ccw") {
+							x = x + 15;
+						}
+						else {
+							x = x - 15;
+						}
+						
+						if (penult == "smallerinpenult" && redrawCounter == redrawCounterMax - 2) {
+							ctx.strokeStyle = 'rgb(255,255,255)';
+							ctx.fillStyle = 'rgb(255,255,255)';
+							ctx.lineWidth = 10;
+							ctx.beginPath();
+							ctx.arc(100 * Math.cos(x * Math.PI / 180) + 500, 100 * Math.sin(x * Math.PI / 180) + 300, 4, 0, Math.PI * 2, false);
+							ctx.closePath();
+							ctx.stroke();
+							ctx.fill();
+						}
+
+						else {
+							ctx.strokeStyle = 'rgb(255,255,255)';
+							ctx.fillStyle = 'rgb(255,255,255)';
+							ctx.lineWidth = 10;
+							ctx.beginPath();
+							ctx.arc(100 * Math.cos(x * Math.PI / 180) + 500, 100 * Math.sin(x * Math.PI / 180) + 300, 20, 0, Math.PI * 2, false);
+							ctx.closePath();
+							ctx.stroke();
+							ctx.fill();
+						}
+
+						redrawCounter++;
+
+					}
+					if (redrawCounter == redrawCounterMax) {
+						rd = 1000;
+						clearScreen();
+						trialNumberCounter++;
+						redrawCounter = 0;
+
+						//Reset penultimate
+						randomNumberPenult = Math.floor((Math.random() * 2));
+						if (randomNumberPenult == 0) {
+							penult = "smallerinpenult";
+						}
+						else if (randomNumberPenult == 1) {
+							penult = "nosmallerinpenult";
+						}
+
+					}
+
+					window.canvasTimer = setTimeout(redraw, rd);
+					
+				}
+
+			}
+
+		}
+
+
+		function stopTimer() {
+			currentState = 1;
+			clearTimeout(window.canvasTimer);
+			clearTimeout(window.colorChanger);
+			myMusic.pause();
+			myMusic1.pause();
+		}
+
+		function firstMusic() {
+			myMusic1.pause();
+			myMusic.play();
+		}
+
+
+		function changeMusic() {
+			myMusic.pause();
+			myMusic1.play();
+		}
+
+	</script>
+</body>
+</html>
