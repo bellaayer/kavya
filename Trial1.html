@@ -1,31 +1,26 @@
 <!DOCTYPE HTML>
 <!-- TODO
 -- Fix audio how it should be (three different trials, generate sounds instead of file)
+-- Change START and PAUSE buttons to a single start -> play/pause button
 -->
 <html>
 <head>
 	<title>Audio-Visual Analysis</title>
 </head>
 <body>
-
 	<SECTION style="border-style: solid; border-width: 2px; width: 1000px;">
-
 		<CANVAS WIDTH="1000" HEIGHT="600" ID="canvas">
 			<audio id=myMusic src="http://saiakilesh.github.io/600Hz.mp3" type="audio/mpeg" type="audio/mpeg"></audio>
 			<audio id=myMusic1 src="http://saiakilesh.github.io/600Hz.mp3" type="audio/mpeg" type="audio/mpeg"></audio>
-
 		</CANVAS>
-
 	</SECTION>
 
 	<P>
 		<button onClick="alterCanvas()">START</button>
 	</P>
 	<P>
-		<button onClick="stopTimer()">STOP</button>
+		<button onClick="stopTimer()">PAUSE</button>
 	</P>
-
-
 
 <script>				
 		var ctx = document.getElementById("canvas").getContext("2d");
@@ -104,14 +99,11 @@
 			var color2= 'rgb(183,178,178)';
 			var color = color1;
 			
+			redraw();
 			
 			currentState = 0;
 			myMusic.pause();
 			myMusic1.play();
-
-			window.canvasTimer = setTimeout(redraw, 1000);
-
-			clearScreen();
 
 			function changeColor() {
 				if (changeColorCounter < 24) {
@@ -131,7 +123,6 @@
 				}
 			}
 			
-
 			function redraw() {
 				var rd = 80; // redraw time
 				if (trialNumberCounter < 96) {
@@ -260,17 +251,11 @@
 						else if (randomNumberPenult == 1) {
 							penult = "nosmallerinpenult";
 						}
-
 					}
-
-					window.canvasTimer = setTimeout(redraw, rd);
-					
+					window.canvasTimer = setTimeout(redraw, rd);	
 				}
-
 			}
-
 		}
-
 
 		function stopTimer() {
 			currentState = 1;
@@ -290,7 +275,6 @@
 			myMusic.pause();
 			myMusic1.play();
 		}
-
 	</script>
 </body>
 </html>
