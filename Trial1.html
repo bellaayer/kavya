@@ -22,7 +22,7 @@
 </head>
 <body>
 	<div id="canvas-container">
-		<CANVAS WIDTH="1000" HEIGHT="600" ID="canvas"></CANVAS>
+		<CANVAS WIDTH="600" HEIGHT="600" ID="canvas"></CANVAS>
 	</div>
 	<br>
 	<button id=pausePlay onClick="startButton()">START</button>
@@ -42,7 +42,7 @@
 			ctx.fillStyle = 'rgb(0,0,255)';
 			ctx.lineWidth = 10;
 			ctx.beginPath();
-			ctx.arc(500, 300, 3, 0, Math.PI * 2, false);
+			ctx.arc(300, 300, 3, 0, Math.PI * 2, false);
 			ctx.closePath();
 			ctx.stroke();
 			ctx.fill();
@@ -54,7 +54,7 @@
 			ctx.lineWidth = 10;
 			ctx.beginPath();
 			var a = 200;
-			ctx.arc(a * Math.cos(angle * Math.PI / 180) + 500, a * Math.sin(angle * Math.PI / 180) + 300, radius, 0, Math.PI * 2, false);
+			ctx.arc(a * Math.cos(angle * Math.PI / 180) + 300, a * Math.sin(angle * Math.PI / 180) + 300, radius, 0, Math.PI * 2, false);
 			ctx.closePath();
 			ctx.stroke();
 			ctx.fill();
