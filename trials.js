@@ -1,4 +1,5 @@
 var ctx = document.getElementById("canvas").getContext("2d");
+var anchor = document.getElementById("anchor");
 var debugOn = true;
 
 var soundSix = document.getElementById("600");
@@ -208,17 +209,12 @@ function alterCanvas() {
 }
 
 function startButton() {
-  var pp = document.getElementById("pausePlay");
-  pp.onclick = stopButton;
-  pp.innerHTML = "STOP";
+  anchor.onclick = stopButton;
   alterCanvas();
 }
 
 function stopButton() {
-  var pp = document.getElementById("pausePlay");
-  pp.onclick = startButton;
-  pp.innerHTML = "START";
-
+  anchor.onclick = startButton;
   currentState = 1;
   clearTimeout(window.canvasTimer);
 }

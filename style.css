@@ -1,0 +1,26 @@
+body {
+  background-color:rgb(152,152,152);
+}
+#canvas-container {
+  margin:0 auto;
+  width: 600px;
+  height: 600px;
+  position:absolute;
+  left:50%;
+  top:50%;
+  margin:-300px 0 0 -300px;
+
+}
+#canvas {
+  display: inline;
+}
+audio {
+  display: none;
+}
+#anchor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height:  100%;
+}

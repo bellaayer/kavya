@@ -1,35 +1,20 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-    <style>
-      body {
-        background-color:rgb(152,152,152);
-        text-align: center;
-      }
-      #canvas-container {
-        text-align: center;
-        width: 100%;
-      }
-      #canvas {
-        display: inline;
-      }
-      audio {
-        display: none;
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="../style.css">
     <title>Trial 1</title>
   </head>
-  <body>
-    <div id="canvas-container">
-      <canvas width="600" height="600" id="canvas">Your browser does not support canvas.</CANVAS>
-    </div>
-    <audio id="600" src="../sounds/600.wav" controls>
-    </audio>
-    <audio id="3000" src="../sounds/3000.wav" controls>
-    </audio>
-    <br>
-    <button id="pausePlay" onclick="startButton()">START</button>
-
-    <script src = "../trials.js"></script>
-  </body>
+  <a id="anchor" href="javascript:void(0)" onclick="startButton();">
+    <body>
+      <div id="canvas-container">
+        <canvas width="600" height="600" id="canvas">Your browser does not support canvas.</canvas>
+      </div>
+      <audio id="600" src="../sounds/600.wav" controls>
+      </audio>
+      <audio id="3000" src="../sounds/3000.wav" controls>
+      </audio>
+      <br>
+      <script src = "../trials.js"></script>
+    </body>
+  </a>
 </html>
