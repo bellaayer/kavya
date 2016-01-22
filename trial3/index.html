@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        background-color:rgb(152,152,152);
+        text-align: center;
+      }
+      #canvas-container {
+        text-align: center;
+        width: 100%;
+      }
+      #canvas {
+        display: inline;
+      }
+      audio {
+        display: none;
+      }
+    </style>
+    <title>Trial 3</title>
+  </head>
+  <body>
+    <div id="canvas-container">
+      <canvas width="600" height="600" id="canvas">Your browser does not support canvas.</CANVAS>
+    </div>
+    <audio id="600" src="../sounds/600.wav" controls>
+    </audio>
+    <audio id="3000" src="../sounds/3000.wav" controls>
+    </audio>
+    <br>
+    <button id="pausePlay" onclick="startButton()">START</button>
+
+    <script src = "../trials.js"></script>
+  </body>
+</html>
