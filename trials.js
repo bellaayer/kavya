@@ -61,7 +61,6 @@ function alterCanvas() {
 
   function redraw() {
     if (trialNumberCounter < 96) {
-      console.log(trialNumberCounter)
       if (redrawCounter == 0) {
         rd = 80;
         redrawCounter = 0;
