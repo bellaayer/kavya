@@ -1,6 +1,6 @@
 var ctx = document.getElementById("canvas").getContext("2d");
 var anchor = document.getElementById("anchor");
-var debugOn = true;
+var debugOn = false;
 
 var soundSix = document.getElementById("600");
 var soundTwelve = document.getElementById("3000");
