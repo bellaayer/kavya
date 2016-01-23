@@ -43,7 +43,7 @@ function circle(angle, radius, hertz) {
   ctx.closePath();
   ctx.stroke();
   ctx.fill();
-  soundOff(hertz);
+  if (document.title != "Trial 1") soundOff(hertz);
 }
 
 function alterCanvas() {
