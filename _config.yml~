@@ -1,0 +1,5 @@
+# baseurl: ""
+# url: "http://kps.ninja/kavya-psych/"
+
+# Build settings
+markdown: kramdown

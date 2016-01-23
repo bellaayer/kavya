@@ -1,8 +1,1 @@
-# Site settings
-title: Kavya Tangella
-email: kyle.sferrazza@gmail.com
-baseurl: ""
-url: "http://kps.ninja/kavya-psych/" # the base hostname & protocol for your site
-
-# Build settings
 markdown: kramdown
