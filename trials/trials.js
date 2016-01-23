@@ -3,17 +3,15 @@ var anchor = document.getElementById("anchor");
 var debugOn = false;
 
 var soundSix = document.getElementById("600");
-var soundTwelve = document.getElementById("3000");
+var soundThree = document.getElementById("3000");
 
-function soundOff() {
-  soundSix.currentTime = 0;
-  soundTwelve.currentTime = 0;
-  if (document.title == "Trial 2") {
+function soundOff(hertz) {
+  if (hertz == 600) {
+    soundSix.currentTime = 0;
     soundSix.play();
-  } else if(document.title == "Trial 3" && redrawCounter == redrawCounterMax - 2) {
-    soundTwelve.play();
-  } else if(document.title == "Trial 3") {
-    soundSix.play();
+  } else {
+    soundThree.currentTime = 0;
+    soundThree.play();
   }
 }
 
@@ -34,7 +32,7 @@ function clearScreen() {
   ctx.fill();
 }
 
-function circle(angle, radius) {
+function circle(angle, radius, hertz) {
   ctx.strokeStyle = 'rgb(255,255,255)';
   ctx.fillStyle = 'rgb(255,255,255)';
   ctx.audio
@@ -45,7 +43,7 @@ function circle(angle, radius) {
   ctx.closePath();
   ctx.stroke();
   ctx.fill();
-  soundOff();
+  soundOff(hertz);
 }
 
 function alterCanvas() {
@@ -162,7 +160,7 @@ function alterCanvas() {
           x = x - 15;
         }
 
-        circle(x, 20);
+        circle(x, 20, 600);
 
         redrawCounter++;
       } else if (redrawCounter == redrawCounterMax - 2) {
@@ -174,10 +172,13 @@ function alterCanvas() {
           x = x - 15;
         }
 
+        var hz = 600;
+        if (document.title == "Trial 3") hz = 3000;
+
         if (penult == "smallerinpenult") {
-          circle(x, 4);
+          circle(x, 4, hz);
         } else {
-          circle(x, 20);
+          circle(x, 20, hz);
         }
 
         redrawCounter++;
@@ -192,7 +193,7 @@ function alterCanvas() {
           x = x - 15;
         }
 
-        circle(x, 20);
+        circle(x, 20, 600);
 
         redrawCounter++;
       } else if (redrawCounter == redrawCounterMax) {
