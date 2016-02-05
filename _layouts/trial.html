@@ -3,9 +3,17 @@
   <head>
     <link rel="stylesheet" type="text/css" href="../../css/style.css">
     <title>{{ page.title }}</title>
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script type="text/javascript">
+       (function(){
+          emailjs.init("user_nAC9d3EiAQuRTMXP8LD9x");
+       })();
+    </script>
   </head>
   <a id="anchor" onclick="startButton();">
     <body>
+      <button class="buttons" id="lb" onclick="pushGuess(1);">1 FRAME</button>
+      <button class="buttons" id="rb" onclick="pushGuess(2);">2 FRAMES</button>
       <div id="canvas-container">
         <canvas width="600" height="600" id="canvas">Your browser does not support canvas.</canvas>
       </div>
