@@ -231,7 +231,7 @@ function getUserInput() {
 	rb.style.display = "block";
 	lb.style.display = "block";
 	canvas.style.display = "none";
-	setTimeout(checkGuess, 1000);
+	setTimeout(checkGuess, 250);
 }
 
 function checkGuess() {
@@ -242,7 +242,7 @@ function checkGuess() {
 		canvas.style.display = "inline";
 		setTimeout(startButton, 1000);
 	} else {
-		setTimeout(checkGuess, 1000);
+		setTimeout(checkGuess, 250);
 	}
 }
 
