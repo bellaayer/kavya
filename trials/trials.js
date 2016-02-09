@@ -210,7 +210,7 @@ function alterCanvas() {
       
       window.canvasTimer = setTimeout(redraw, rd);  
     } else {
-    	doneSend();
+      doneSend();
     }
   }
 }
@@ -227,40 +227,40 @@ function stopButton() {
 }
 
 function getUserInput() {
-	guessMade = false;
-	rb.style.display = "block";
-	lb.style.display = "block";
-	canvas.style.display = "none";
-	setTimeout(checkGuess, 250);
+  guessMade = false;
+  rb.style.display = "block";
+  lb.style.display = "block";
+  canvas.style.display = "none";
+  setTimeout(checkGuess, 250);
 }
 
 function checkGuess() {
-	if (guessMade) {
-		guessMade = false;
-		rb.style.display = "none";
-		lb.style.display = "none";
-		canvas.style.display = "inline";
-		setTimeout(startButton, 1000);
-	} else {
-		setTimeout(checkGuess, 250);
-	}
+  if (guessMade) {
+    guessMade = false;
+    rb.style.display = "none";
+    lb.style.display = "none";
+    canvas.style.display = "inline";
+    setTimeout(startButton, 1000);
+  } else {
+    setTimeout(checkGuess, 250);
+  }
 }
 
 function pushGuess(guessVal) {
-	numInLastGuess.push(guessVal);
-	guessMade = true;
+  numInLastGuess.push(guessVal);
+  guessMade = true;
 }
 
 function doneSend() {
-	var trialNum = document.title;
-	var trialDesc = "..";
-	if (trialNum == "Trial 1") {
-		trialDesc = "No Audio";
-	} else if (trialNum == "Trial 2") {
-		trialDesc = "Constant Audio";
-	} else {
-		trialDesc = "Changing Audio";
-	}
+  var trialNum = document.title;
+  var trialDesc = "..";
+  if (trialNum == "Trial 1") {
+    trialDesc = "No Audio";
+  } else if (trialNum == "Trial 2") {
+    trialDesc = "Constant Audio";
+  } else {
+    trialDesc = "Changing Audio";
+  }
 
 
   now = new Date(); // This current millisecond on user's computer.
@@ -289,32 +289,32 @@ function doneSend() {
   if(mm<10) { mm = "0"+mm; }
   format = format.replace(/\{m\}/g,mm);
 
-	var message = [[trialNum, trialDesc, format], 
-	["Trial Number", "Actual # Of Circles in Last Frame", "Guessed # of circles in last frame"]
-	]
+  var message = [[trialNum, trialDesc, format], 
+  ["Trial Number", "Actual # Of Circles in Last Frame", "Guessed # of circles in last frame"]
+  ]
 
-	for (var i = 0; i < 96; i++) {
-		message.push([i+1, numInLastReal[i], numInLastGuess[i]]);
-	}
+  for (var i = 0; i < 96; i++) {
+    message.push([i+1, numInLastReal[i], numInLastGuess[i]]);
+  }
 
-	var csvRows = [];
+  var csvRows = [];
 
-	for(row in message) {
-	    csvRows.push(message[row].join(','));
-	}
+  for(row in message) {
+      csvRows.push(message[row].join(','));
+  }
 
-	var csvString = csvRows.join("\n")
-	var a         = document.createElement("a");
-	a.href        = "data:attachment/csv," +  encodeURIComponent(csvString);
-	a.target      = "_blank";
+  var csvString = csvRows.join("\n")
+  var a         = document.createElement("a");
+  a.href        = "data:attachment/csv," +  encodeURIComponent(csvString);
+  a.target      = "_blank";
   var n = ((new Date()).toISOString()).substring(0, 10);
   var resultName = window.prompt("Name for results file?", n);
-	a.download    = resultName + ".csv";
+  a.download    = resultName + ".csv";
 
-	document.body.appendChild(a);
-	a.click();
-	
-	alert("Finished! Your results have been downloaded.");
+  document.body.appendChild(a);
+  a.click();
+  
+  alert("Finished! Your results have been downloaded.");
 }
 
 clearScreen();
