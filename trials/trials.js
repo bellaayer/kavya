@@ -291,7 +291,7 @@ function doneSend() {
 
   var message = [[trialNum, trialDesc, format], 
   ["Trial Number", "Actual # Of Circles in Last Frame", "Guessed # of circles in last frame"]
-  ]
+  ];
 
   for (var i = 0; i < 96; i++) {
     message.push([i+1, numInLastReal[i], numInLastGuess[i]]);
@@ -303,13 +303,26 @@ function doneSend() {
       csvRows.push(message[row].join(','));
   }
 
-  var csvString = csvRows.join("\n")
+  format = "{Y}-{M}-{D}";
+  var Month = new String();
+  Month = now.getMonth() + 1;
+  if(Month<10) { Month = "0"+Month; }
+  format = format.replace(/\{M\}/g,Month);
+  var Mday = new String();
+  Mday = now.getDate();
+  if(Mday<10) { Mday = "0"+Mday; }
+  format = format.replace(/\{D\}/g,Mday);
+  var Year = new String();
+  Year = now.getFullYear();
+  format = format.replace(/\{Y\}/g,Year);
+
+  var csvString = csvRows.join("\n");
   var a         = document.createElement("a");
   a.href        = "data:attachment/csv," +  encodeURIComponent(csvString);
   a.target      = "_blank";
-  var n = ((new Date()).toISOString()).substring(0, 10);
-  var resultName = window.prompt("Name for results file?", n);
-  a.download    = resultName + ".csv";
+  var resultName = window.prompt("Name for results file?", format);
+  if (resultName == null) resultName = format;
+  a.download = resultName + ".csv";
 
   document.body.appendChild(a);
   a.click();
