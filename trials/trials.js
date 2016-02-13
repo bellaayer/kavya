@@ -355,13 +355,10 @@ var currentState = -1;
 var x = 0;
 
 //counters
-var redrawCounter = 0;
-var trialNumberCounter = 0;
+var redrawCounter = 0, trialNumberCounter = 0;
 
 //Loggers!!
-var numInLastReal = [];
-var numInLastGuess = [];
+var numInLastReal = [], numInLastGuess = [];
 
-var rb = document.getElementById("rb");
-var lb = document.getElementById("lb");
+var rb = document.getElementById("rb"), lb = document.getElementById("lb");
 var guessMade = false;
