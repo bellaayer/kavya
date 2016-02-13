@@ -2,7 +2,7 @@ var canvas = document.getElementById("canvas-container");
 var cnv = document.getElementById("canvas");
 var ctx = cnv.getContext("2d");
 var anchor = document.getElementById("anchor");
-var debugOn = false;
+var debugOn = true;
 
 var soundSix = document.getElementById("600");
 var soundThree = document.getElementById("3000");
@@ -73,84 +73,84 @@ function alterCanvas() {
         //Initialize redrawCounterMax
         while (redrawCounterMax == 0) {
           var randomNumber = Math.floor(Math.random() * 3);
-          if (randomNumber == 0 && thirteenCB > 0) {
+          if (randomNumber == 0 && framesCB[0] > 0) {
             redrawCounterMax = 13;
-            thirteenCB--;
-          } else if (randomNumber == 1 && nineteenCB > 0) {
+            framesCB[0]--;
+          } else if (randomNumber == 1 && framesCB[1] > 0) {
             redrawCounterMax = 19;
-            nineteenCB--;
-          } else if (randomNumber = 2 && twentyfiveCB > 0) {
+            framesCB[1]--;
+          } else if (randomNumber = 2 && framesCB[2] > 0) {
             redrawCounterMax = 25;
-            twentyfiveCB--;
+            framesCB[2]--;
           }
         }
-        debug("RC: " + thirteenCB + " | " + nineteenCB + " | " + twentyfiveCB);
+        debug("RC: " + framesCB.join(" | "));
 
         //Initialize direction
         while (direction == "") {
           randomDirectionNumber = Math.floor(Math.random() * 2);
 
-          if (randomDirectionNumber == 0 && ccwCB > 0) {
+          if (randomDirectionNumber == 0 && directionCB[1] > 0) {
             direction = "ccw";
-            ccwCB--;
-          } else if (randomDirectionNumber == 1 && cwCB > 0) {
+            directionCB[1]--;
+          } else if (randomDirectionNumber == 1 && directionCB[0] > 0) {
             direction = "cw";
-            cwCB--;
+            directionCB[0]--;
           }
         }
 
-        debug("DI: " + cwCB + " | " + ccwCB);
+        debug("DI: " + directionCB.join(" | "));
 
         //Initialize startAngle
         while (startAngle == 45) {
           randomNumberSA = Math.floor(Math.random() * 4);
-          if (randomNumberSA == 0 && zeroCB > 0) {
+          if (randomNumberSA == 0 && startAngleCB[0] > 0) {
             startAngle = 0;
-            zeroCB--;
-          } else if (randomNumberSA == 1 && ninetyCB > 0) {
+            startAngleCB[0]--;
+          } else if (randomNumberSA == 1 && startAngleCB[1] > 0) {
             startAngle = 90;
-            ninetyCB--;
-          } else if (randomNumberSA == 2 && oneeightyCB > 0) {
+            startAngleCB[1]--;
+          } else if (randomNumberSA == 2 && startAngleCB[2] > 0) {
             startAngle = 180;
-            oneeightyCB--;
-          } else if (randomNumberSA == 3 && twoseventyCB > 0) {
+            startAngleCB[2]--;
+          } else if (randomNumberSA == 3 && startAngleCB[3] > 0) {
             startAngle = 270;
-            twoseventyCB--;
+            startAngleCB[3]--;
           }
         }
 
-        debug("SA: " + zeroCB + " | " + ninetyCB + " | " + oneeightyCB + " | " + twoseventyCB);
+        debug("SA: " + startAngleCB.join(" | "));
 
-        //init oilCB tilCB
+        //init numInLastCB[1] numInLastCB[0]
         while (numInLast == 0) {
           randomNumberInLast = Math.floor(Math.random() * 2);
-          if (randomNumberInLast == 0 && oilCB > 0) {
+          if (randomNumberInLast == 0 && numInLastCB[1] > 0) {
             numInLast = 1;
             numInLastReal.push(1);
-            oilCB--;
-          } else if (randomNumberInLast == 1 && tilCB > 0) {
+            numInLastCB[1]--;
+          } else if (randomNumberInLast == 1 && numInLastCB[0] > 0) {
             numInLast = 2;
             numInLastReal.push(2);
-            tilCB--;
+            numInLastCB[0]--;
           }
         }
 
-        debug("LF: " + oilCB + " | " + tilCB);
+        debug("LF: " + numInLastCB.join(" | "));
 
         //init penultimate
         while (penult == "") {
           var randomNumberPenult = Math.floor((Math.random() * 2));
-          if (randomNumberPenult == 0 && smallerinpenultCB > 0) {
+          if (randomNumberPenult == 0 && sizeInPenultCB[0] > 0) {
             penult = "smallerinpenult";
-            smallerinpenultCB--;
+            sizeInPenultCB[0]--;
           }
-          else if (randomNumberPenult == 1 && nosmallerinpenultCB > 0) {
+          else if (randomNumberPenult == 1 && sizeInPenultCB[1] > 0) {
             penult = "nosmallerinpenult";
-            nosmallerinpenultCB--;
+            sizeInPenultCB[1]--;
           }
         }
 
-        debug("SP: " + smallerinpenultCB + " | " + nosmallerinpenultCB)
+        debug("SP: " + sizeInPenultCB.join(" | "));
 
         x = startAngle;
 
@@ -333,20 +333,17 @@ function doneSend() {
 clearScreen();
 
 //Counterbalancing Initializers
-var cwCB, ccwCB;
-cwCB = ccwCB = 48;
+var directionCB = [48, 48] //cw | ccw
 
-var zeroCB, ninetyCB, oneeightyCB, twoseventyCB;
-zeroCB = ninetyCB = oneeightyCB = twoseventyCB = 24;
+var startAngleCB = [24, 24, 24, 24] //0 | 90 | 180 | 270
 
-var thirteenCB, nineteenCB, twentyfiveCB;
-thirteenCB = nineteenCB = twentyfiveCB = 32;
+var framesCB = [32, 32, 32] //13 | 19 | 25
 
-var tilCB, oilCB;
-tilCB = oilCB = 48;
+var numInLastCB = [48, 48] //2 | 1
 
-var smallerinpenultCB, nosmallerinpenultCB;
-smallerinpenultCB = nosmallerinpenultCB = 48;
+var sizeInPenultCB = [48, 48] //smaller | nosmaller
+
+// END counterbalance
 
 var redrawCounterMax = 0;
 var direction, startAngle, numInLast, penult, rd;
