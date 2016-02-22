@@ -2,7 +2,7 @@ var canvas = document.getElementById("canvas-container");
 var cnv = document.getElementById("canvas");
 var ctx = cnv.getContext("2d");
 var anchor = document.getElementById("anchor");
-var debugOn = true;
+var debugOn = false;
 
 var soundSix = document.getElementById("600");
 var soundThree = document.getElementById("3000");
@@ -109,13 +109,12 @@ function alterCanvas() {
         //Initialize direction
         while (direction == "") {
           var randomDirectionNumber = Math.floor(Math.random() * 2);
-
-          if (randomDirectionNumber == 0 && directionCB[1] > 0) {
-            direction = "ccw";
-            directionCB[1]--;
-          } else if (randomDirectionNumber == 1 && directionCB[0] > 0) {
+          if (randomDirectionNumber == 0 && directionCB[0] > 0) {
             direction = "cw";
             directionCB[0]--;
+          } else if (randomDirectionNumber == 1 && directionCB[1] > 0) {
+            direction = "ccw";
+            directionCB[1]--;
           }
         }
 
@@ -147,12 +146,10 @@ function alterCanvas() {
           var randomNumberInLast = Math.floor(Math.random() * 2);
           if (randomNumberInLast == 0 && numInLastCB[1] > 0) {
             numInLast = 1;
-            numInLastReal.push(1);
-            numInLastCB[1]--;
+            numInLastCB[0]--;
           } else if (randomNumberInLast == 1 && numInLastCB[0] > 0) {
             numInLast = 2;
-            numInLastReal.push(2);
-            numInLastCB[0]--;
+            numInLastCB[1]--;
           }
         }
 
@@ -173,21 +170,31 @@ function alterCanvas() {
 
         debug("SP: " + sizeInPenultCB.join(" | "));
         
+        directionReal.push(direction);
+        startAngleReal.push(startAngle);
+        numInLastReal.push(numInLast);
+        framesReal.push(redrawCounterMax);
+        sizeInPenultReal.push(penult);
+        if (hertz == 600) audioReal.push("constant 600hz");
+        if (hertz == 3000) audioReal.push("switch to 3000hz");
+        if (hertz == 0) audioReal.push("no audio");
+        audioReal.push();
+        
       } else if (redrawCounter < (redrawCounterMax - 2)) {
         clearScreen();
 
-        if (direction == "ccw") {
-          x = x + 15;
+        if (direction == "cw") {
+          x += 15;
         } else {
-          x = x - 15;
+          x -= 15;
         }
       } else if (redrawCounter == redrawCounterMax - 2) {
         clearScreen();
 
-        if (direction == "ccw") {
-          x = x + 15;
+        if (direction == "cw") {
+          x += 15;
         } else {
-          x = x - 15;
+          x -= 15;
         }
 
         if (penult == "smallerinpenult") size = 4;
@@ -196,10 +203,10 @@ function alterCanvas() {
           clearScreen();
         }
 
-        if (direction == "ccw") {
-          x = x + 15;
+        if (direction == "cw") {
+          x += 15;
         } else {
-          x = x - 15;
+          x -= 15;
         }
       } 
       redrawCounter++;
@@ -234,40 +241,52 @@ function stopButton() {
 }
 
 function getUserInput() {
-  guessMade = false;
   rb.style.display = "block";
   lb.style.display = "block";
   canvas.style.display = "none";
-  setTimeout(checkGuess, 250);
 }
 
 function checkGuess() {
-  if (guessMade) {
-    guessMade = false;
-    rb.style.display = "none";
-    lb.style.display = "none";
-    canvas.style.display = "inline";
-    setTimeout(startButton, 1000);
-  } else {
-    setTimeout(checkGuess, 250);
-  }
+  rb.style.display = "none";
+  lb.style.display = "none";
+  canvas.style.display = "inline";
+  setTimeout(startButton, 1000);
 }
 
 function pushGuess(guessVal) {
   numInLastGuess.push(guessVal);
-  guessMade = true;
+  checkGuess();
 }
 
 function doneSend() {
-
   var currentDate = getDateString();
-
-  var message = [[currentDate, "", ""], 
-  ["Trial Number", "Actual # Of Circles in Last Frame", "Guessed # of circles in last frame"]
+  var message = [
+    [currentDate], 
+    [
+      "Trial Number",
+      "Actual # Of Circles in Last Frame",
+      "Guessed # of circles in last frame",
+      "Direction",
+      "Start Angle (degrees)",
+      "Frames",
+      "Size in penultimate frame",
+      "Audio"
+    ]
   ];
 
   for (var i = 0; i < 288; i++) {
-    message.push([i+1, numInLastReal[i], numInLastGuess[i]]);
+    message.push(
+      [
+        i+1,
+        numInLastReal[i],
+        numInLastGuess[i],
+        directionReal[i],
+        startAngleReal[i],
+        framesReal[i],
+        sizeInPenultReal[i],
+        audioReal[i]
+      ]
+    );
   }
 
   var csvRows = [];
@@ -276,7 +295,6 @@ function doneSend() {
       csvRows.push(message[row].join(','));
   }
   
-
   var csvString   = csvRows.join("\n");
   var a           = document.createElement("a");
   a.href          = "data:attachment/csv," +  encodeURIComponent(csvString);
@@ -287,25 +305,29 @@ function doneSend() {
 
   document.body.appendChild(a);
   a.click();
-  
   alert("Finished! Your results have been downloaded.");
-  
 }
 
 clearScreen();
 
 //START counterbalance
 var directionCB = [144, 144]; //cw | ccw
+var directionReal = [];
 
 var startAngleCB = [72, 72, 72, 72]; //0 | 90 | 180 | 270
+var startAngleReal = [];
 
 var framesCB = [96, 96, 96]; //13 | 19 | 25
+var framesReal = [];
 
 var numInLastCB = [144, 144]; //2 | 1
+var numInLastReal = [], numInLastGuess = [];
 
 var sizeInPenultCB = [144, 144]; //smaller | nosmaller
+var sizeInPenultReal = [];
 
 var audioCB = [96, 96, 96]; //0 | 600 | 3000
+var audioReal = [];
 // END counterbalance
 
 var redrawCounterMax = 0;
@@ -320,11 +342,7 @@ var x = 0;
 //counters
 var redrawCounter = 0, trialNumberCounter = 0;
 
-//Loggers!!
-var numInLastReal = [], numInLastGuess = [];
-
 var rb = document.getElementById("rb"), lb = document.getElementById("lb");
-var guessMade = false;
 
 function getDateString() {
   var now = new Date();
