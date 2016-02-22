@@ -264,7 +264,7 @@ function doneSend() {
     [currentDate], 
     [
       "Trial Number",
-      "Actual # Of Circles in Last Frame",
+      "Actual # of circles in last frame",
       "Guessed # of circles in last frame",
       "Direction",
       "Start Angle (degrees)",
