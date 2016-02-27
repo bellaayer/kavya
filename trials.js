@@ -1,3 +1,16 @@
+var rb = document.getElementById("rb"), lb = document.getElementById("lb");
+
+function textsizer(e){
+    var evtobj=window.event? event : e //distinguish between IE's explicit event object (window.event) and Firefox's implicit.
+    var unicode=evtobj.charCode? evtobj.charCode : evtobj.keyCode
+    var actualkey=String.fromCharCode(unicode)
+    if (actualkey=="q" && lb.style.display == "block")
+        pushGuess(1);
+    if (actualkey=="w" && rb.style.display == "block")
+        pushGuess(2);
+}
+document.onkeypress=textsizer
+
 var canvas = document.getElementById("canvas-container");
 var cnv = document.getElementById("canvas");
 var ctx = cnv.getContext("2d");
@@ -345,8 +358,6 @@ var x = 0;
 var redrawCounter = 0, trialNumberCounter = 0;
 
 var doBreak = false;
-
-var rb = document.getElementById("rb"), lb = document.getElementById("lb");
 
 function getDateString() {
   var now = new Date();
