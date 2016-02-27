@@ -59,10 +59,10 @@ function alterCanvas() {
 
   function redraw() {
     if (trialNumberCounter < 288) {
+      doBreak = (trialNumberCounter == 95 || trialNumberCounter == 191);
       var size = 20;
       if (redrawCounter == 0) {
         rd = 80;
-        redrawCounter = 0;
         redrawCounterMax = 0;
         direction = "";
         numInLast = 0;
@@ -222,7 +222,8 @@ function alterCanvas() {
         redrawCounter = 0;
         setTimeout(stopButton, 1000);
       }
-      window.canvasTimer = setTimeout(redraw, rd);  
+      
+      window.canvasTimer = setTimeout(redraw, rd);
     } else {
       doneSend();
     }
@@ -250,6 +251,7 @@ function checkGuess() {
   rb.style.display = "none";
   lb.style.display = "none";
   canvas.style.display = "inline";
+  if (doBreak) alert ("You've just completed 96 trials. Take a break, and press OK when you are finished.");
   setTimeout(startButton, 1000);
 }
 
@@ -341,6 +343,8 @@ var x = 0;
 
 //counters
 var redrawCounter = 0, trialNumberCounter = 0;
+
+var doBreak = false;
 
 var rb = document.getElementById("rb"), lb = document.getElementById("lb");
 
