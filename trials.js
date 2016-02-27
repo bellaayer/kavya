@@ -28,7 +28,7 @@ var audioReal = [];
 // END counterbalance
 
 var redrawCounterMax = 0;
-var direction, startAngle, numInLast, penult, rd, hertz;
+var direction, startAngle, numInLast, penult, hertz;
 
 //currentState is 0/1 if latest pressed thing is start/stop
 var currentState = -1;
@@ -103,7 +103,6 @@ function alterCanvas() {
       doBreak = (trialNumberCounter == 95 || trialNumberCounter == 191);
       var size = 20;
       if (redrawCounter == 0) {
-        rd = 80;
         redrawCounterMax = 0;
         direction = "";
         numInLast = 0;
@@ -250,12 +249,12 @@ function alterCanvas() {
       
       
       if (redrawCounter == redrawCounterMax) {
-        setTimeout(clearScreen, 1000);
+        setTimeout(clearScreen, 80);
         trialNumberCounter++;
         redrawCounter = 0;
-        setTimeout(stopButton, 2000);
+        setTimeout(stopButton, 1080);
       } else {
-        window.canvasTimer = setTimeout(redraw, rd);
+        window.canvasTimer = setTimeout(redraw, 80);
       }
       
     } else {
