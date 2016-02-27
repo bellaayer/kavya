@@ -1,32 +1,59 @@
-var rb = document.getElementById("rb"), lb = document.getElementById("lb");
-
-function textsizer(e){
-    var evtobj=window.event? event : e //distinguish between IE's explicit event object (window.event) and Firefox's implicit.
-    var unicode=evtobj.charCode? evtobj.charCode : evtobj.keyCode
-    var actualkey=String.fromCharCode(unicode)
-    if (actualkey=="q" && lb.style.display == "block")
-        pushGuess(1);
-    if (actualkey=="w" && rb.style.display == "block")
-        pushGuess(2);
-}
-document.onkeypress=textsizer
+var debugOn = false;
 
 var canvas = document.getElementById("canvas-container");
 var cnv = document.getElementById("canvas");
 var ctx = cnv.getContext("2d");
 var anchor = document.getElementById("anchor");
-var debugOn = false;
+
+var rb = document.getElementById("rb"), lb = document.getElementById("lb");
+
+//START counterbalance
+var directionCB = [144, 144]; //cw | ccw
+var directionReal = [];
+
+var startAngleCB = [72, 72, 72, 72]; //0 | 90 | 180 | 270
+var startAngleReal = [];
+
+var framesCB = [96, 96, 96]; //13 | 19 | 25
+var framesReal = [];
+
+var numInLastCB = [144, 144]; //1 | 2
+var numInLastReal = [], numInLastGuess = [];
+
+var sizeInPenultCB = [144, 144]; //smaller | nosmaller
+var sizeInPenultReal = [];
+
+var audioCB = [96, 96, 96]; //0 | 600 | 3000
+var audioReal = [];
+// END counterbalance
+
+var redrawCounterMax = 0;
+var direction, startAngle, numInLast, penult, rd, hertz;
+
+//currentState is 0/1 if latest pressed thing is start/stop
+var currentState = -1;
+
+// degree count for cosine and sine
+var x = 0;
+
+//counters
+var redrawCounter = 0, trialNumberCounter = 0;
+var doBreak = false;
 
 var soundSix = document.getElementById("600");
 var soundThree = document.getElementById("3000");
+
+clearScreen();
 
 function soundOff(hz) {
   if (hz == 600) {
     soundSix.currentTime = 0;
     soundSix.play();
+    debug("600hz");
   } else if (hz == 3000) {
     soundThree.currentTime = 0;
     soundThree.play();
+    debug("3000hz");
   }
 }
 
@@ -48,6 +75,7 @@ function clearScreen() {
 }
 
 function circle(angle, radius, hz) {
+  debug("drawing circle");
   soundOff(hz);
   ctx.strokeStyle = 'rgb(255,255,255)';
   ctx.fillStyle = 'rgb(255,255,255)';
@@ -105,14 +133,14 @@ function alterCanvas() {
         
         //Initialize redrawCounterMax
         while (redrawCounterMax == 0) {
-          var randomNumber = Math.floor(Math.random() * 3);
-          if (randomNumber == 0 && framesCB[0] > 0) {
+          var randomNumberRd = Math.floor(Math.random() * 3);
+          if (randomNumberRd == 0 && framesCB[0] > 0) {
             redrawCounterMax = 13;
             framesCB[0]--;
-          } else if (randomNumber == 1 && framesCB[1] > 0) {
+          } else if (randomNumberRd == 1 && framesCB[1] > 0) {
             redrawCounterMax = 19;
             framesCB[1]--;
-          } else if (randomNumber == 2 && framesCB[2] > 0) {
+          } else if (randomNumberRd == 2 && framesCB[2] > 0) {
             redrawCounterMax = 25;
             framesCB[2]--;
           }
@@ -157,10 +185,10 @@ function alterCanvas() {
         //init numInLast
         while (numInLast == 0) {
           var randomNumberInLast = Math.floor(Math.random() * 2);
-          if (randomNumberInLast == 0 && numInLastCB[1] > 0) {
+          if (randomNumberInLast == 0 && numInLastCB[0] > 0) {
             numInLast = 1;
             numInLastCB[0]--;
-          } else if (randomNumberInLast == 1 && numInLastCB[0] > 0) {
+          } else if (randomNumberInLast == 1 && numInLastCB[1] > 0) {
             numInLast = 2;
             numInLastCB[1]--;
           }
@@ -191,52 +219,45 @@ function alterCanvas() {
         if (hertz == 600) audioReal.push("constant 600hz");
         if (hertz == 3000) audioReal.push("switch to 3000hz");
         if (hertz == 0) audioReal.push("no audio");
-        audioReal.push();
         
       } else if (redrawCounter < (redrawCounterMax - 2)) {
         clearScreen();
-
-        if (direction == "cw") {
-          x += 15;
-        } else {
-          x -= 15;
-        }
       } else if (redrawCounter == redrawCounterMax - 2) {
         clearScreen();
-
-        if (direction == "cw") {
-          x += 15;
-        } else {
-          x -= 15;
-        }
-
         if (penult == "smallerinpenult") size = 4;
       } else if (redrawCounter == redrawCounterMax - 1) {
         if (numInLast != 2) {
           clearScreen();
+          debug("CLEARING SCREEN BECAUSE ONLY ONE IN LAST");
         }
-
+      } 
+      if (redrawCounter <= redrawCounterMax - 1) {
         if (direction == "cw") {
           x += 15;
         } else {
           x -= 15;
         }
-      } 
+      }
       redrawCounter++;
       if (hertz == 600) aud = 600;
       if (hertz == 0) aud = 0;
       if (hertz == 3000) aud = 600;
-      if (hertz == 3000 && (redrawCounter == redrawCounterMax - 2)) aud = 3000;
+      if ((hertz == 3000) && (redrawCounter == redrawCounterMax - 1)) {
+        aud = 3000;
+      }
       circle(x, size, aud);
+      
+      
+      
       if (redrawCounter == redrawCounterMax) {
-        rd = 100000; //This is no way to do it!
-        clearScreen();
+        setTimeout(clearScreen, 1000);
         trialNumberCounter++;
         redrawCounter = 0;
-        setTimeout(stopButton, 1000);
+        setTimeout(stopButton, 2000);
+      } else {
+        window.canvasTimer = setTimeout(redraw, 1000);//rd);
       }
       
-      window.canvasTimer = setTimeout(redraw, rd);
     } else {
       doneSend();
     }
@@ -244,6 +265,7 @@ function alterCanvas() {
 }
 
 function startButton() {
+  
   anchor.onclick = "";
   alterCanvas();
 }
@@ -323,42 +345,6 @@ function doneSend() {
   alert("Finished! Your results have been downloaded.");
 }
 
-clearScreen();
-
-//START counterbalance
-var directionCB = [144, 144]; //cw | ccw
-var directionReal = [];
-
-var startAngleCB = [72, 72, 72, 72]; //0 | 90 | 180 | 270
-var startAngleReal = [];
-
-var framesCB = [96, 96, 96]; //13 | 19 | 25
-var framesReal = [];
-
-var numInLastCB = [144, 144]; //2 | 1
-var numInLastReal = [], numInLastGuess = [];
-
-var sizeInPenultCB = [144, 144]; //smaller | nosmaller
-var sizeInPenultReal = [];
-
-var audioCB = [96, 96, 96]; //0 | 600 | 3000
-var audioReal = [];
-// END counterbalance
-
-var redrawCounterMax = 0;
-var direction, startAngle, numInLast, penult, rd, hertz;
-
-//currentState is 0/1 if latest pressed thing is start/stop
-var currentState = -1;
-
-// degree count for cosine and sine
-var x = 0;
-
-//counters
-var redrawCounter = 0, trialNumberCounter = 0;
-
-var doBreak = false;
-
 function getDateString() {
   var now = new Date();
   var format = "{Y}-{M}-{D}";
@@ -375,3 +361,15 @@ function getDateString() {
   format = format.replace(/\{Y\}/g,Year);
   return format;
 }
+
+function textsizer(e) {
+    var evtobj = window.event? event : e //distinguish between IE's explicit event object (window.event) and Firefox's implicit.
+    var unicode = evtobj.charCode? evtobj.charCode : evtobj.keyCode
+    var actualkey = String.fromCharCode(unicode)
+    if (actualkey == "q" && lb.style.display == "block")
+        pushGuess(1);
+    if (actualkey == "w" && rb.style.display == "block")
+        pushGuess(2);
+}
+
+document.onkeypress = textsizer;
