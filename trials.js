@@ -255,7 +255,7 @@ function alterCanvas() {
         redrawCounter = 0;
         setTimeout(stopButton, 2000);
       } else {
-        window.canvasTimer = setTimeout(redraw, 1000);//rd);
+        window.canvasTimer = setTimeout(redraw, rd);
       }
       
     } else {
