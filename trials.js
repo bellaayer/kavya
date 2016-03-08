@@ -365,9 +365,9 @@ function textsizer(e) {
     var evtobj = window.event? event : e //distinguish between IE's explicit event object (window.event) and Firefox's implicit.
     var unicode = evtobj.charCode? evtobj.charCode : evtobj.keyCode
     var actualkey = String.fromCharCode(unicode)
-    if (actualkey == "q" && lb.style.display == "block")
+    if (actualkey == "z" && lb.style.display == "block")
         pushGuess(1);
-    if (actualkey == "w" && rb.style.display == "block")
+    if (actualkey == "m" && rb.style.display == "block")
         pushGuess(2);
 }
 
