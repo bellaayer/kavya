@@ -279,14 +279,21 @@ function getUserInput() {
   rb.style.display = "block";
   lb.style.display = "block";
   canvas.style.display = "none";
+  window.tooLong = setTimeout(doTimeout, 4000);
 }
 
 function checkGuess() {
   rb.style.display = "none";
   lb.style.display = "none";
   canvas.style.display = "inline";
+  clearTimeout(window.tooLong);
   if (doBreak) alert ("You've just completed 96 trials. Take a break, and press OK when you are finished.");
   setTimeout(startButton, 1000);
+}
+
+function doTimeout() {
+  numInLastGuess.push(0);
+  checkGuess();
 }
 
 function pushGuess(guessVal) {
