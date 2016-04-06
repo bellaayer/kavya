@@ -252,7 +252,7 @@ function alterCanvas() {
         setTimeout(clearScreen, 80);
         trialNumberCounter++;
         redrawCounter = 0;
-        setTimeout(stopButton, 1080);
+        setTimeout(stopButton, 200);
       } else {
         window.canvasTimer = setTimeout(redraw, 80);
       }
