@@ -1,10 +1,10 @@
 var debugOn = false;
 
+//HTML Definitions
 var canvas = document.getElementById("canvas-container");
 var cnv = document.getElementById("canvas");
 var ctx = cnv.getContext("2d");
 var anchor = document.getElementById("anchor");
-
 var rb = document.getElementById("rb"), lb = document.getElementById("lb");
 
 //START counterbalance
@@ -23,7 +23,7 @@ var numInLastReal = [], numInLastGuess = [];
 var sizeInPenultCB = [144, 144]; //smaller | nosmaller
 var sizeInPenultReal = [];
 
-var audioCB = [96, 96, 96]; //0 | 600 | 3000
+var audioCB = [48, 48, 48, 48, 48, 48]; //no audio | no audio | 600 | 3000 | 600->3000 | 3000->600
 var audioReal = [];
 // END counterbalance
 
@@ -108,24 +108,33 @@ function alterCanvas() {
         numInLast = 0;
         startAngle = 45;
         penult = "";
-        hertz = 5;
+        hertz = "";
         var aud = hertz;
 
         debug("-----------------");
         debug("TRIAL "+ (trialNumberCounter+1));
 
         //Initialize audio
-        while (hertz == 5) {
-          var randomNumber = Math.floor(Math.random() * 3);
-          if (randomNumber == 0 && framesCB[0] > 0) {
-            hertz = 0;
+        while (hertz == "") {
+          var randomNumber = Math.floor(Math.random() * 6);
+          if (randomNumber == 0 && audioCB[0] > 0) {
+            hertz = "0";
             audioCB[0]--;
-          } else if (randomNumber == 1 && framesCB[1] > 0) {
-            hertz = 600;
+          } else if (randomNumber == 1 && audioCB[1] > 0) {
+            hertz = "0";
             audioCB[1]--;
-          } else if (randomNumber == 2 && framesCB[2] > 0) {
-            hertz = 3000;
+          } else if (randomNumber == 2 && audioCB[2] > 0) {
+            hertz = "600";
             audioCB[2]--;
+          } else if (randomNumber == 3 && audioCB[2] > 0) {
+            hertz = "3000";
+            audioCB[3]--;
+          } else if (randomNumber == 4 && audioCB[2] > 0) {
+            hertz = "600-3000";
+            audioCB[4]--;
+          } else if (randomNumber == 5 && audioCB[2] > 0) {
+            hertz = "3000-600";
+            audioCB[5]--;
           }
         }
         debug("AU: " + audioCB.join(" | "));
@@ -215,9 +224,11 @@ function alterCanvas() {
         numInLastReal.push(numInLast);
         framesReal.push(redrawCounterMax);
         sizeInPenultReal.push(penult);
-        if (hertz == 600) audioReal.push("constant 600hz");
-        if (hertz == 3000) audioReal.push("switch to 3000hz");
-        if (hertz == 0) audioReal.push("no audio");
+        if (hertz == "600") audioReal.push("constant 600hz");
+        if (hertz == "3000") audioReal.push("constant 3000hz");
+        if (hertz == "0") audioReal.push("no audio");
+        if (hertz == "600-3000") audioReal.push("600hz with change to 3000hz");
+        if (hertz == "3000-600") audioReal.push("3000hz with change to 600hz");
         
       } else if (redrawCounter < (redrawCounterMax - 2)) {
         clearScreen();
@@ -238,11 +249,14 @@ function alterCanvas() {
         }
       }
       redrawCounter++;
-      if (hertz == 600) aud = 600;
-      if (hertz == 0) aud = 0;
-      if (hertz == 3000) aud = 600;
-      if ((hertz == 3000) && (redrawCounter == redrawCounterMax - 1)) {
-        aud = 3000;
+      if (hertz == "600") aud = 600;
+      if (hertz == "0") aud = 0;
+      if (hertz == "3000") aud = 3000;
+      if (hertz == "600-3000") aud = 600;
+      if (hertz == "3000-600") aud = 3000;
+      if (redrawCounter == redrawCounterMax - 1) {
+        if (hertz == "600-3000") aud = 3000;
+     	if (hertz == "3000-600") aud = 600;
       }
       circle(x, size, aud);
       
@@ -331,6 +345,7 @@ function doneSend() {
       ]
     );
   }
+  /*
   var tableTwo = [0, 0, 0, 0, 0, 0];
   for (var i = 1; i < 288; i++) {
 
@@ -356,6 +371,7 @@ function doneSend() {
       }
     }
   }
+
   message.push([]);
   message.push(
     ["", "Really 1 Guessed 2", "Really 2 Guessed 1"]
@@ -365,7 +381,7 @@ function doneSend() {
     ["Penultimate switch to 3000Hz", tableTwo[2], tableTwo[3]],
     ["No audio", tableTwo[4], tableTwo[5]]
   );
-
+*/
   var csvRows = [];
 
   for(var row in message) {
