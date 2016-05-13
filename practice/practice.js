@@ -259,7 +259,7 @@ function pushGuess(guessVal) {
 function doneSend() {
   var currentDate = getDateString();
   var message = [
-    [currentDate], 
+    [currentDate + " PRACTICE SESSION"], 
     [
       "Trial Number",
       "Actual # of circles in last frame",
