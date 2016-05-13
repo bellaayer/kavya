@@ -271,7 +271,7 @@ function doneSend() {
     ]
   ];
 
-  for (var i = 0; i < 288; i++) {
+  for (var i = 0; i < 24; i++) {
     message.push(
       [
         i+1,
