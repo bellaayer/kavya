@@ -1,4 +1,4 @@
-var debugOn = true;
+var debugOn = false;
 
 //HTML Definitions
 var canvas = document.getElementById("canvas-container");
