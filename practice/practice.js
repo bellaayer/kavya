@@ -5,7 +5,8 @@ var canvas = document.getElementById("canvas-container");
 var cnv = document.getElementById("canvas");
 var ctx = cnv.getContext("2d");
 var anchor = document.getElementById("anchor");
-var rb = document.getElementById("rb"), lb = document.getElementById("lb");
+var rb = document.getElementById("rb");
+var lb = document.getElementById("lb");
 
 //START counterbalance
 var directionCB = [12, 12]; //cw | ccw
@@ -230,25 +231,13 @@ function getUserInput() {
   rb.style.display = "block";
   lb.style.display = "block";
   canvas.style.display = "none";
-  window.tooLong = setTimeout(doTimeout, 4000);
 }
 
 function checkGuess(guessVal) {
   rb.style.display = "none";
   lb.style.display = "none";
   canvas.style.display = "inline";
-  clearTimeout(window.tooLong);
-  if (guessVal != numInLast) {
-    alert("The correct answer was " + numInLast + " circle(s)");
-  } else {
-    alert("Correct!");
-  }
-  setTimeout(startButton, 1000);
-}
-
-function doTimeout() {
-  numInLastGuess.push(0);
-  checkGuess();
+  correct(guessVal == numInLast);
 }
 
 function pushGuess(guessVal) {
@@ -284,43 +273,7 @@ function doneSend() {
       ]
     );
   }
-  /*
-  var tableTwo = [0, 0, 0, 0, 0, 0];
-  for (var i = 1; i < 288; i++) {
 
-
-
-    if (message[i][7] == "constant 600hz") {
-      if (message[i][1] == 1 && message[i][2] == 2) {
-        tableTwo[0] = tableTwo[0] + 1;
-      } else if (message[i][1] == 2 && message[i][2] == 1) {
-        tableTwo[1] = tableTwo[1] + 1;
-      }
-    } else if (message[i][7] == "switch to 3000hz") {
-      if (message[i][1] == 1 && message[i][2] == 2) {
-        tableTwo[2] = tableTwo[2] + 1;
-      } else if (message[i][1] == 2 && message[i][2] == 1) {
-        tableTwo[3] = tableTwo[3] + 1;
-      }
-    } else if (message[i][7] == "no audio") {
-      if (message[i][1] == 1 && message[i][2] == 2) {
-        tableTwo[4] = tableTwo[4] + 1;
-      } else if (message[i][1] == 2 && message[i][2] == 1) {
-        tableTwo[5] = tableTwo[5] + 1;
-      }
-    }
-  }
-
-  message.push([]);
-  message.push(
-    ["", "Really 1 Guessed 2", "Really 2 Guessed 1"]
-  );
-  message.push(
-    ["Constant 600Hz", tableTwo[0], tableTwo[1]],
-    ["Penultimate switch to 3000Hz", tableTwo[2], tableTwo[3]],
-    ["No audio", tableTwo[4], tableTwo[5]]
-  );
-*/
   var csvRows = [];
 
   for(var row in message) {
@@ -368,3 +321,22 @@ function textsizer(e) {
 }
 
 document.onkeypress = textsizer;
+
+function correct(ness) {
+  var divy = document.getElementById("correctness");
+  divy.style.display = "block";
+  if (ness) {
+    divy.innerHTML = "CORRECT";
+    divy.style.color = "green";
+  } else {
+    divy.innerHTML = "INCORRECT";
+    divy.style.color = "red";
+  }
+  setTimeout(doneTellingThemThings, 1000);
+}
+
+function doneTellingThemThings() {
+  var divy = document.getElementById("correctness");
+  divy.style.display = "none";
+  setTimeout(startButton, 1000);
+}

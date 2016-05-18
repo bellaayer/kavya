@@ -5,10 +5,11 @@
     <title>PRACTICE SESSION</title>
   </head>
   <a id="anchor" onclick="startButton();">
-    <body>
+    <body align="center">
       <button class="buttons" id="lb" onclick="pushGuess(1);">CLICK HERE OR PRESS Z<br>1 CIRCLE IN LAST FRAME</button>
       <button class="buttons" id="rb" onclick="pushGuess(2);">CLICK HERE OR PRESS M<br>2 CIRCLES IN LAST FRAME</button>
       <div id="canvas-container">
+        <span id="correctness" style="z-index: 10;display:none; poistion:absolute; top:0; align:center; font-size:50pt;">INCORRECT</span>
         <canvas width="600" height="600" id="canvas">Your browser does not support canvas.</canvas>
       </div>
       <br>
