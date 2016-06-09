@@ -126,13 +126,13 @@ function alterCanvas() {
           } else if (randomNumber == 2 && audioCB[2] > 0) {
             hertz = "600";
             audioCB[2]--;
-          } else if (randomNumber == 3 && audioCB[2] > 0) {
+          } else if (randomNumber == 3 && audioCB[3] > 0) {
             hertz = "3000";
             audioCB[3]--;
-          } else if (randomNumber == 4 && audioCB[2] > 0) {
+          } else if (randomNumber == 4 && audioCB[4] > 0) {
             hertz = "600-3000";
             audioCB[4]--;
-          } else if (randomNumber == 5 && audioCB[2] > 0) {
+          } else if (randomNumber == 5 && audioCB[5] > 0) {
             hertz = "3000-600";
             audioCB[5]--;
           }
