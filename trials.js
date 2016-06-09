@@ -1,3 +1,4 @@
+var version = "v1.0";
 var debugOn = false;
 
 //HTML Definitions
@@ -43,6 +44,7 @@ var doBreak = false;
 var soundSix = document.getElementById("600");
 var soundThree = document.getElementById("3000");
 
+document.getElementById("v").innerHTML = version;
 clearScreen();
 
 function soundOff(hz) {
