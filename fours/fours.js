@@ -261,11 +261,8 @@ function alterCanvas() {
         if (hertz == "0=>600") aud = 600;
      	  if (hertz == "0=>3000") aud = 3000;
       }
-
-      console.log(audioCB);
+      
       circle(x, size, aud);
-      
-      
       
       if (redrawCounter == redrawCounterMax) {
         setTimeout(clearScreen, 80);
