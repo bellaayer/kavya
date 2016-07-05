@@ -1,4 +1,4 @@
-var version = "1.1";
+var version = "v1.1";
 var debugOn = false;
 
 //HTML Definitions
