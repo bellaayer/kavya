@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="icon" type="image/png" href="/fav/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/fav/favicon-16x16.png" sizes="16x16" />
+    <title>Kavya Tangella</title>
+  </head>
+  <a id="anchor" onclick="startButton();">
+    <body>
+      <div style="font-size:10pt; position: absolute; color:white;" id="v"></div>
+      <button class="buttons" id="lb" onclick="pushGuess(1);">CLICK HERE OR PRESS Z<br>1 CIRCLE IN LAST FRAME</button>
+      <button class="buttons" id="rb" onclick="pushGuess(2);">CLICK HERE OR PRESS M<br>2 CIRCLES IN LAST FRAME</button>
+      <div id="canvas-container">
+        <canvas width="600" height="600" id="canvas">Your browser does not support canvas.</canvas>
+      </div>
+      <audio id="600" src="/sounds/600.wav" controls>
+      </audio>
+      <audio id="3000" src="/sounds/3000.wav" controls>
+      </audio>
+      <br>
+      <script src = "trials.js"></script>
+    </body>
+  </a>
+</html>
