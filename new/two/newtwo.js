@@ -1,4 +1,4 @@
-var version = "v20.3";
+var version = "v20.4";
 var debugOn = true;
 
 //HTML Definitions
@@ -21,6 +21,9 @@ var framesReal = [];
 var numInLastCB = [144, 144]; //1 | 2
 var numInLastReal = [], numInLastGuess = [];
 
+var sizeAlternateCB = [144, 144]; // YES | NO
+var sizeAlternateReal = [];
+
 var sizeInPenultCB = [144, 144]; //smaller | nosmaller
 var sizeInPenultReal = [];
 
@@ -29,7 +32,7 @@ var audioReal = [];
 // END counterbalance
 
 var redrawCounterMax = 0;
-var direction, startAngle, numInLast, penult, hertz;
+var direction, startAngle, numInLast, penult, hertz, sizeAlternate;
 
 //currentState is 0/1 if latest pressed thing is start/stop
 var currentState = -1;
@@ -111,6 +114,7 @@ function alterCanvas() {
         startAngle = 45;
         penult = "";
         hertz = "";
+        sizeAlternate = "";
 
         debug("-----------------");
         debug("TRIAL "+ (trialNumberCounter+1));
@@ -167,6 +171,19 @@ function alterCanvas() {
             directionCB[1]--;
           }
         }
+
+        //Initialize sizeAlternate
+        while (sizeAlternate == "") {
+          var randomsizeAlternateNumber = Math.floor(Math.random() * 2);
+          if (randomsizeAlternateNumber == 0 && sizeAlternateCB[0] > 0) {
+            sizeAlternate = true;
+            sizeAlternateCB[0]--;
+          } else if (randomsizeAlternateNumber == 1 && sizeAlternateCB[1] > 0) {
+            sizeAlternate = false;
+            sizeAlternateCB[1]--;
+          }
+        }
+
 
         debug("DI: " + directionCB.join(" | "));
 
@@ -226,6 +243,7 @@ function alterCanvas() {
         framesReal.push(redrawCounterMax);
         sizeInPenultReal.push(penult);
         audioReal.push(hertz);
+        sizeAlternateReal.push(sizeAlternate);
         
       } else if (redrawCounter < (redrawCounterMax - 2)) {
         clearScreen();
@@ -276,6 +294,15 @@ function alterCanvas() {
           } else {
             aud = 3000;
           }
+        }
+      }
+
+      //SIZE ALTERNATE
+      if (sizeAlternate) {
+        if (redrawCounter % 2 == 0) {
+          size = 20;
+        } else {
+          size = 4;
         }
       }
 
@@ -348,7 +375,8 @@ function doneSend() {
       "Start Angle (degrees)",
       "Frames",
       "Size in penultimate frame",
-      "Audio"
+      "Audio",
+      "Size alternation"
     ]
   ];
 
@@ -362,7 +390,8 @@ function doneSend() {
         startAngleReal[i],
         framesReal[i],
         sizeInPenultReal[i],
-        audioReal[i]
+        audioReal[i],
+        sizeAlternateReal[i]
       ]
     );
   }
