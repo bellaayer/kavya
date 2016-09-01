@@ -1,4 +1,4 @@
-var version = "v20.0";
+var version = "v20.3";
 var debugOn = true;
 
 //HTML Definitions
@@ -249,8 +249,8 @@ function alterCanvas() {
 
       // FIRST FOUR
       if (hertz[4] == "-" && redrawCounter <= 3) {
-        if (hertz[redrawCounter + 1] == "6") aud = 600;
-        if (hertz[redrawCounter + 1] == "3") aud = 3000;
+        if (hertz[redrawCounter] == "6") aud = 600;
+        if (hertz[redrawCounter] == "3") aud = 3000;
       }
 
       // LAST FOUR
@@ -260,6 +260,23 @@ function alterCanvas() {
         debug("hertz[chSum]: " + hertz[chSum] );
         if (hertz[chSum] == "6") aud = 600;
         if (hertz[chSum] == "3") aud = 3000;
+      }
+
+      // ALTERNATORS
+      if (hertz.length == 4) {
+        if (hertz[0] == 3) {
+          if (redrawCounter % 2 == 0) { //EVEN
+            aud = 3000;
+          } else {
+            aud = 600;
+          }
+        } else {
+          if (redrawCounter % 2 == 0) { //EVEN
+            aud = 600;
+          } else {
+            aud = 3000;
+          }
+        }
       }
 
       circle(x, size, aud);
