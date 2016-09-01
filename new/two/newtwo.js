@@ -1,5 +1,5 @@
-var version = "v20.4";
-var debugOn = true;
+var version = "v20.5";
+var debugOn = false;
 
 //HTML Definitions
 var canvas = document.getElementById("canvas-container");
@@ -176,10 +176,10 @@ function alterCanvas() {
         while (sizeAlternate == "") {
           var randomsizeAlternateNumber = Math.floor(Math.random() * 2);
           if (randomsizeAlternateNumber == 0 && sizeAlternateCB[0] > 0) {
-            sizeAlternate = true;
+            sizeAlternate = "true";
             sizeAlternateCB[0]--;
           } else if (randomsizeAlternateNumber == 1 && sizeAlternateCB[1] > 0) {
-            sizeAlternate = false;
+            sizeAlternate = "false";
             sizeAlternateCB[1]--;
           }
         }
@@ -298,7 +298,7 @@ function alterCanvas() {
       }
 
       //SIZE ALTERNATE
-      if (sizeAlternate) {
+      if (sizeAlternate == "true") {
         if (redrawCounter % 2 == 0) {
           size = 20;
         } else {
