@@ -1,4 +1,4 @@
-var version = "v20.5";
+var version = "v20.6";
 var debugOn = false;
 
 //HTML Definitions
@@ -21,10 +21,7 @@ var framesReal = [];
 var numInLastCB = [144, 144]; //1 | 2
 var numInLastReal = [], numInLastGuess = [];
 
-var sizeAlternateCB = [144, 144]; // YES | NO
-var sizeAlternateReal = [];
-
-var sizeInPenultCB = [144, 144]; //smaller | nosmaller
+var sizeInPenultCB = [144, 144]; //smaller | alternate
 var sizeInPenultReal = [];
 
 var audioCB = [48, 48, 48, 48, 48, 48]; // 4*3000,0, | 4*600,0, | 0,4*3000 | 0,4*600 | 3,6,3,6, | 6,3,6,3,
@@ -32,7 +29,7 @@ var audioReal = [];
 // END counterbalance
 
 var redrawCounterMax = 0;
-var direction, startAngle, numInLast, penult, hertz, sizeAlternate;
+var direction, startAngle, numInLast, penult, hertz;
 
 //currentState is 0/1 if latest pressed thing is start/stop
 var currentState = -1;
@@ -114,7 +111,6 @@ function alterCanvas() {
         startAngle = 45;
         penult = "";
         hertz = "";
-        sizeAlternate = "";
 
         debug("-----------------");
         debug("TRIAL "+ (trialNumberCounter+1));
@@ -172,18 +168,6 @@ function alterCanvas() {
           }
         }
 
-        //Initialize sizeAlternate
-        while (sizeAlternate == "") {
-          var randomsizeAlternateNumber = Math.floor(Math.random() * 2);
-          if (randomsizeAlternateNumber == 0 && sizeAlternateCB[0] > 0) {
-            sizeAlternate = "true";
-            sizeAlternateCB[0]--;
-          } else if (randomsizeAlternateNumber == 1 && sizeAlternateCB[1] > 0) {
-            sizeAlternate = "false";
-            sizeAlternateCB[1]--;
-          }
-        }
-
 
         debug("DI: " + directionCB.join(" | "));
 
@@ -230,7 +214,7 @@ function alterCanvas() {
             sizeInPenultCB[0]--;
           }
           else if (randomNumberPenult == 1 && sizeInPenultCB[1] > 0) {
-            penult = "nosmallerinpenult";
+            penult = "sizeAlternate";
             sizeInPenultCB[1]--;
           }
         }
@@ -298,7 +282,7 @@ function alterCanvas() {
       }
 
       //SIZE ALTERNATE
-      if (sizeAlternate == "true") {
+      if (smallerinpenult == "sizeAlternate") {
         if (redrawCounter % 2 == 0) {
           size = 20;
         } else {
@@ -374,9 +358,8 @@ function doneSend() {
       "Direction",
       "Start Angle (degrees)",
       "Frames",
-      "Size in penultimate frame",
-      "Audio",
-      "Size alternation"
+      "smallerinpenult / alternation",
+      "Audio"
     ]
   ];
 
@@ -390,8 +373,7 @@ function doneSend() {
         startAngleReal[i],
         framesReal[i],
         sizeInPenultReal[i],
-        audioReal[i],
-        sizeAlternateReal[i]
+        audioReal[i]
       ]
     );
   }
