@@ -227,7 +227,6 @@ function alterCanvas() {
         framesReal.push(redrawCounterMax);
         sizeInPenultReal.push(penult);
         audioReal.push(hertz);
-        sizeAlternateReal.push(sizeAlternate);
         
       } else if (redrawCounter < (redrawCounterMax - 2)) {
         clearScreen();
@@ -282,7 +281,7 @@ function alterCanvas() {
       }
 
       //SIZE ALTERNATE
-      if (smallerinpenult == "sizeAlternate") {
+      if (penult == "sizeAlternate") {
         if (redrawCounter % 2 == 0) {
           size = 20;
         } else {
