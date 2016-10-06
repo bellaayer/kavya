@@ -1,1 +1,1 @@
-exclude: ['Gemfile', 'Gemfile.lock', '.c9']
+exclude: ['Gemfile', 'Gemfile.lock', '.c9', 'LICENSE.md', 'README.md']
