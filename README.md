@@ -9,7 +9,7 @@ This project is to be used for a study on the effect of audio on visual percepti
 | Blue circle radius | 3px |
 | Small gray circle radius | 4px |
 | Big gray circle radius | 20px |
-| Blue center to gray center | 500px |
+| Blue center to gray center | 200px |
 
 # TODO
 - [ ] Layout for html pages that replaces title into two places.
