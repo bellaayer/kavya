@@ -6,9 +6,9 @@ This project is to be used for a study on the effect of audio on visual percepti
 # Measurements
 | Name | Distance |
 |----|----|
-| Blue circle radius | 3px |
-| Small gray circle radius | 4px |
-| Big gray circle radius | 20px |
+| Blue circle radius | 7.5px |
+| Small gray circle radius | 6px |
+| Big gray circle radius | 22px |
 | Blue center to gray center | 200px |
 
 # TODO
